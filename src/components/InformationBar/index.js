@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { TouchableOpacity, Text, Image } from 'react-native'
+import { Image, Text, TouchableOpacity } from 'react-native'
 
 import Styles from './Styles'
 

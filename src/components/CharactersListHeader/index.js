@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import React, { memo } from 'react'
-import { View, TouchableOpacity, Text } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 
 import Styles from './Styles'
 

@@ -1,10 +1,10 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
-import { Image, View, FlatList, Text, TouchableOpacity, Alert } from 'react-native'
+import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
 import { connect } from 'react-redux'
 
 import Images from '../../assets/images'
-import { InformationBar, Header, MovieDetails, CharactersListHeader, CharacterListFooter } from '../../components'
+import { CharacterListFooter, CharactersListHeader, Header, InformationBar, MovieDetails } from '../../components'
 import { ContainerActions, NetworkActions } from '../../state/src'
 import Styles from './Styles'
 
