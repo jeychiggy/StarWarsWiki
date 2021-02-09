@@ -7,6 +7,8 @@ export default StyleSheet.create({
 		height: 60,
 		justifyContent: 'center',
 		alignItems: 'center',
+		position: 'absolute',
+		top: 600,
 	},
 	textStyles: {
 		color: 'yellow',

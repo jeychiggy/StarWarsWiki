@@ -181,7 +181,10 @@ class Home extends Component {
 								<CharactersListHeader onPress={this.toggleCharacterOrder} />
 								<View style={Styles.flatListContainer}>
 									{_.isEmpty(characters) ? (
-										<Image source={Images.spinner} />
+										<Image
+											source={Images.spinner}
+											style={{ alignSelf: 'center', justifyContent: 'center', width: 50, height: 50 }}
+										/>
 									) : (
 										<FlatList
 											data={_.sortBy(characters, ['name'])}

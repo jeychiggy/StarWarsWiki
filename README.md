@@ -9,3 +9,5 @@ A small scale app that fetches data from https://swapi.dev/api
 and the total height ogf the characters
   
 - the gender filter spec was not implemented due to time constraints from my side, the toggle on the UI is interactive but unfortunately does not toggle the characters displayed in the list based on their gender
+
+find below link for the live demo app built via app center (I could not use the prescribed web resources for demos as the app was crashing due to some libraries not being web friendly)
