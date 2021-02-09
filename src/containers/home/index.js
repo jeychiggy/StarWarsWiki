@@ -4,18 +4,11 @@ import { Image, View, FlatList, Text, TouchableOpacity, Alert } from 'react-nati
 import { connect } from 'react-redux'
 
 import Images from '../../assets/images'
-import { InformationBar, Header, MovieDetails, CharactersListHeader } from '../../components'
+import { InformationBar, Header, MovieDetails, CharactersListHeader, CharacterListFooter } from '../../components'
 import { ContainerActions, NetworkActions } from '../../state/src'
 import Styles from './Styles'
 
-// give class a description
-// remove unused variables
-// optimize code
-// use components
-// use hooks
-// performance - lib why-did-you-render
-// async await everywhere
-// sort alphabetically
+// A Container of Components that renders the app + the logic of the app
 
 class Home extends Component {
 	constructor(props) {
@@ -36,19 +29,6 @@ class Home extends Component {
 	async componentDidMount() {
 		await this.getMoviesRequest()
 	}
-
-	// onFailure = ({ messageBody, messageTitle }) => {
-	// 	return Alert.alert(
-	// 		messageTitle,
-	// 		messageBody,
-	// 		[
-	// 			{
-	// 				text: 'Okay',
-	// 			},
-	// 		],
-	// 		{ cancelable: false }
-	// 	)
-	// }
 
 	setSelectedMovie = ({ item }) => {
 		this.setState((prevState) => ({
@@ -82,9 +62,13 @@ class Home extends Component {
 	displayMovieList = () => {
 		const { movies } = this.props
 
+		const sortedMovies = movies.sort((a, b) => {
+			return new Date(a.release_date) - Date(b.release_date)
+		})
+
 		return (
 			<FlatList
-				data={_.sortBy(movies, ['release_date'])}
+				data={sortedMovies}
 				keyExtractor={(item) => item.episode_id.toString()}
 				renderItem={({ item }) => (
 					<TouchableOpacity style={Styles.item} onPress={() => this.setSelectedMovie({ item })}>
@@ -96,6 +80,7 @@ class Home extends Component {
 		)
 	}
 
+	// Fetching character data from url
 	fetchPerson = (url) => {
 		return fetch(url)
 			.then((response) => {
@@ -109,6 +94,8 @@ class Home extends Component {
 			})
 	}
 
+	// getting character details  for each character
+	// using a map function to by pass async-await unaware looping
 	getCharacterDetails = async () => {
 		const { selectedMovie } = this.state
 
@@ -160,6 +147,10 @@ class Home extends Component {
 			this.onFailure(error)
 		}
 
+		let totalHeight = characters.reduce((result, element) => {
+			return Number(result) + Number(element.height)
+		}, 0)
+
 		return (
 			<>
 				<Header children="StarWars Wiki" />
@@ -189,26 +180,31 @@ class Home extends Component {
 								/>
 								<CharactersListHeader onPress={this.toggleCharacterOrder} />
 								<View style={Styles.flatListContainer}>
-									<FlatList
-										data={characters}
-										extraData={characters}
-										inverted={!isAscendingOrder}
-										keyExtractor={(item, index) => `key-${index}`}
-										renderItem={({ item }) => (
-											<View style={Styles.characterContainer} onPress={() => null}>
-												<View style={Styles.characterItem}>
-													<Text style={Styles.characterText}>{item.name}</Text>
+									{_.isEmpty(characters) ? (
+										<Image source={Images.spinner} />
+									) : (
+										<FlatList
+											data={_.sortBy(characters, ['name'])}
+											extraData={_.sortBy(characters, ['name'])}
+											inverted={!isAscendingOrder}
+											keyExtractor={(item, index) => `key-${index}`}
+											renderItem={({ item }) => (
+												<View style={Styles.characterContainer} onPress={() => null}>
+													<View style={Styles.characterItem}>
+														<Text style={Styles.characterText}>{item.name}</Text>
+													</View>
+													<View style={Styles.characterItem}>
+														<Text style={Styles.characterText}>{item.gender}</Text>
+													</View>
+													<View style={Styles.characterItem}>
+														<Text style={Styles.characterText}>{item.height}</Text>
+													</View>
 												</View>
-												<View style={Styles.characterItem}>
-													<Text style={Styles.characterText}>{item.gender}</Text>
-												</View>
-												<View style={Styles.characterItem}>
-													<Text style={Styles.characterText}>{item.height}</Text>
-												</View>
-											</View>
-										)}
-									/>
+											)}
+										/>
+									)}
 								</View>
+								<CharacterListFooter totalCharacters={characters.length} totalHeight={totalHeight} />
 							</>
 						) : (
 							<Image resizeMode="contain" source={Images.starWarsLogo} style={Styles.logo} />
