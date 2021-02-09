@@ -1,0 +1,2 @@
+export const MOVIES_CLEAR = 'MOVIES_CLEAR'
+export const MOVIES_UPDATE = 'MOVIES_UPDATE'
